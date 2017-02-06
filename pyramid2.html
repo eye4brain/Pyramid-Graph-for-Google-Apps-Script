@@ -1,0 +1,45 @@
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(test);
+    
+    function test(){
+      google.script.run.withSuccessHandler(onSuccess).datamanrev2();
+    }
+    
+    function onSuccess(data){
+      var gdata = google.visualization.arrayToDataTable(data);
+      var chart = new google.visualization.BarChart(document.getElementById('series_chart_div'));
+      
+      //グラフオプションの指定
+      var options = {
+         isStacked: true,
+         chartArea: {left:80,top:30,width:"80%",height:"90%"},
+         title: 'H25年9月段階人口推計男女別(単位：千人)',
+         height: 500,
+         width: 700,
+         hAxis: {
+             format: ';',
+             title: '男女別人口数',
+         },
+         vAxis: {
+             direction: -1,
+             title: '年齢層',
+         }
+      };
+ 
+      var formatter = new google.visualization.NumberFormat({
+         pattern: ';'
+      });
+ 
+      formatter.format(gdata, 2)
+ 
+      //グラフの描画
+      chart.draw(gdata, options);
+    }
+    </script>
+  </head>
+  <body>
+    <div id="series_chart_div" style="width: 700px; height: 500px;"></div>
+  </body>
